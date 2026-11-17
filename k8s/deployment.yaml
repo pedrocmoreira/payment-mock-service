@@ -18,6 +18,8 @@ spec:
         prometheus.io/path: /actuator/prometheus
         prometheus.io/port: "8084"
     spec:
+      # Evita que o Kubernetes injete variáveis como RABBITMQ_PORT=tcp://... (conflitam com a configuração da aplicação)
+      enableServiceLinks: false
       containers:
         - name: payment-mock-service
           # A pipeline de CI/CD substitui a imagem com "kubectl set image" (tag = SHA do commit)
