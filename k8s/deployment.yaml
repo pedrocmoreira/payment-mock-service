@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-mock-service
+  namespace: garage
+  labels: {app: payment-mock-service}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: payment-mock-service}}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: {maxUnavailable: 0, maxSurge: 1}
+  template:
+    metadata:
+      labels: {app: payment-mock-service}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8084"
+    spec:
+      containers:
+        - name: payment-mock-service
+          # A pipeline de CI/CD substitui a imagem com "kubectl set image" (tag = SHA do commit)
+          image: ghcr.io/OWNER/payment-mock-service:latest
+          imagePullPolicy: IfNotPresent
+          ports: [{containerPort: 8084}]
+          envFrom:
+            - configMapRef: {name: payment-mock-service-config}
+          env:
+            - name: MOCK_ACCESS_TOKEN
+              valueFrom: {secretKeyRef: {name: garage-secrets, key: MP_ACCESS_TOKEN}}
+            - name: MOCK_WEBHOOK_SECRET
+              valueFrom: {secretKeyRef: {name: garage-secrets, key: MP_WEBHOOK_SECRET}}
+          startupProbe:
+            httpGet: {path: /actuator/health/liveness, port: 8084}
+            periodSeconds: 5
+            failureThreshold: 36
+          livenessProbe:
+            httpGet: {path: /actuator/health/liveness, port: 8084}
+            periodSeconds: 15
+          readinessProbe:
+            httpGet: {path: /actuator/health/readiness, port: 8084}
+            periodSeconds: 10
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {memory: 512Mi}

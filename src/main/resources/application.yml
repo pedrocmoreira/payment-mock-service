@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: payment-mock-service
+
+server:
+  port: ${SERVER_PORT:8084}
+
+mock:
+  # Token que o Billing envia em "Authorization: Bearer ..." (mesmo valor de MP_ACCESS_TOKEN no Billing)
+  access-token: ${MOCK_ACCESS_TOKEN}
+  # URL que o navegador usa para abrir o checkout (init_point)
+  public-base-url: ${MOCK_PUBLIC_BASE_URL:http://localhost:8084}
+  webhook:
+    # Assinatura x-signature (mesmo valor de MP_WEBHOOK_SECRET no Billing). Vazio = sem assinatura.
+    secret: ${MOCK_WEBHOOK_SECRET:}
+    max-attempts: ${MOCK_WEBHOOK_MAX_ATTEMPTS:3}
+    backoff-ms: ${MOCK_WEBHOOK_BACKOFF_MS:1000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:1.0}
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
