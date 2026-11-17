@@ -1,5 +1,9 @@
 # Payment Mock Service — simulador do Mercado Pago
 
+[![CI/CD](https://github.com/pedrocmoreira/payment-mock-service/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/pedrocmoreira/payment-mock-service/actions/workflows/ci-cd.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=pedrocmoreira_payment-mock-service&metric=alert_status)](https://sonarcloud.io/project/overview?id=pedrocmoreira_payment-mock-service)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pedrocmoreira_payment-mock-service&metric=coverage)](https://sonarcloud.io/project/overview?id=pedrocmoreira_payment-mock-service)
+
 Serviço independente que **imita a API do Mercado Pago** (Checkout Pro) usada pelo `billing-service`.
 O Billing fala com ele pela **mesma integração HTTP** que usaria com o Mercado Pago real. Para trocar de um para o outro,
 basta mudar `MP_API_BASE_URL` e `MP_ACCESS_TOKEN`, sem alterar código.

@@ -21,7 +21,7 @@ spec:
       containers:
         - name: payment-mock-service
           # A pipeline de CI/CD substitui a imagem com "kubectl set image" (tag = SHA do commit)
-          image: ghcr.io/OWNER/payment-mock-service:latest
+          image: ghcr.io/pedrocmoreira/payment-mock-service:latest
           imagePullPolicy: IfNotPresent
           ports: [{containerPort: 8084}]
           envFrom:

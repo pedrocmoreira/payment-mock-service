@@ -20,8 +20,8 @@
         <springdoc.version>3.0.2</springdoc.version>
         <jacoco.version>0.8.13</jacoco.version>
         <jacoco.minimum>0.80</jacoco.minimum>
-        <sonar.organization>${env.SONAR_ORGANIZATION}</sonar.organization>
-        <sonar.projectKey>${env.SONAR_PROJECT_KEY}</sonar.projectKey>
+        <sonar.organization>pedrocmoreira</sonar.organization>
+        <sonar.projectKey>pedrocmoreira_payment-mock-service</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.coverage.exclusions>**/config/**,**/*Application.java,**/dto/**</sonar.coverage.exclusions>

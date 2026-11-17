@@ -59,8 +59,6 @@ jobs:
     needs: build-test
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
-      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -76,7 +74,7 @@ jobs:
       - name: Aviso - SONAR_TOKEN ausente
         if: env.SONAR_TOKEN == ''
         run: |
-          echo "::error::Configure o secret SONAR_TOKEN e as variables SONAR_ORGANIZATION/SONAR_PROJECT_KEY"
+          echo "::error::Configure o secret SONAR_TOKEN (SonarCloud > My Account > Security)"
           exit 1
 
   docker:
